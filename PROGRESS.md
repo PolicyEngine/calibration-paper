@@ -20,9 +20,11 @@
 1. [DONE] test_r_parity.py — Rscript subprocess, skip-clean. 4 tests PASS vs real R survey here.
 2. [DONE] test_sgd_parity.py — populace parity, skip-clean. 3 tests PASS (bit-identical to populace.calibrate).
 3. [DONE] Fixed over-strict SGD infeasible assertion (test_gradient.py). 6 gradient tests PASS.
-4. cli.py (`cal demo`, `cal methods`) — fix the broken entry point (pyproject cal = calibration_paper.cli:main).
-5. Reconcile pyproject rparity extra + docstrings to Rscript-not-rpy2.
-6. Full green both envs → PR on method-surface.
+4. [DONE] cli/ package (cal methods, cal demo) — fixes broken entry point. 8 CLI tests PASS. Mirrors sparsity-paper cli/ dispatcher.
+5. [DONE] Removed dead rparity=[rpy2] extra; reconciled classical.py + test_classical.py docstrings to Rscript-subprocess.
+6. IN PROGRESS: verify full green both envs → PR on method-surface.
+   - BASE install: 56 passed, 2 skipped (gradient + sgd_parity skip w/o torch; r_parity RAN, R present).
+   - TODO: run full suite WITH methods extra (all should pass).
 
 ## VERIFIED empirically this session
 - R-parity (Rscript+survey present here): raking 6e-15, linear/GREG 1.3e-10, logit 6e-15 g-weight agreement. Ours converge TIGHTER than R's default epsilon 1e-7 — confirms inherited note.

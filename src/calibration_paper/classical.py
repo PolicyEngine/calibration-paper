@@ -32,8 +32,10 @@ The four distances give the paper's classical methods
 
 Everything is pure NumPy/SciPy so the classical adapters run on the base install
 (no R, no torch). ``tests/test_r_parity.py`` checks these against R ``survey``'s
-``calibrate``/``grake`` on small cases when rpy2 is installed, so the comparison
-is grounded in the field's actual tool, not this reimplementation alone.
+``calibrate`` on small cases by shelling out to ``scripts/survey_calibrate.R``
+via ``Rscript`` (a subprocess, not rpy2), so the comparison is grounded in the
+field's actual tool, not this reimplementation alone; it skips cleanly when no R
+toolchain is present.
 """
 
 from __future__ import annotations

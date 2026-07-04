@@ -11,7 +11,8 @@ Every method is exercised on tiny synthetic problems whose answer is known:
 * raking == entropy == exponential tilting (the Deville-Sarndal identity).
 
 These pin the *methods*, not statistical quality; the R-parity suite
-(``test_r_parity.py``) grounds them against R ``survey`` where it is installed.
+(``test_r_parity.py``) grounds them against R ``survey`` via an ``Rscript``
+subprocess where an R toolchain is installed.
 """
 
 from __future__ import annotations

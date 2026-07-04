@@ -35,12 +35,13 @@ methods = [
     # populace-calibrate optimizes, verified against it by a parity test.
     "torch>=2.2",
 ]
-# The classical-calibration reference implementation the Python adapters are
-# checked against: R's `survey` package via rpy2. Installed only for the
-# R-parity tests (skipped when absent), never required to run the sweep.
-rparity = [
-    "rpy2>=3.5",
-]
+# The R-parity oracle (R's `survey` package) is an external toolchain, not a
+# Python package: `tests/test_r_parity.py` shells out to `scripts/survey_calibrate.R`
+# via `Rscript` (no rpy2 -- a subprocess avoids the in-process R/rpy2/NumPy ABI
+# coupling). So there is no `rparity` pip extra to install; instead install R and
+# the survey package once on the machine that runs the parity suite:
+#     Rscript -e 'install.packages("survey", repos="https://cloud.r-project.org")'
+# When Rscript or survey is absent, the parity module skips cleanly.
 viz = [
     # Figures for the sweep. matplotlib exports vector PDF/SVG for LaTeX natively.
     "matplotlib>=3.8",
