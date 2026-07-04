@@ -32,7 +32,7 @@ comparison is against the field's actual tools, not reimplementations.
 
 - Frozen inputs, one operator varies: a pinned candidate frame (populace US
   support artifact, hash-recorded) and a pinned hierarchical target surface
-  (Ledger facts: national + state families; the l0-paper's frozen-target
+  (Ledger facts: national + state families; the sparsity-paper's frozen-target
   machinery reused wholesale).
 - **Held-out target families** (fit on K families, score on the rest) — the
   generalization axis classical papers rarely report.
