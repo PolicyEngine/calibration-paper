@@ -33,4 +33,18 @@ Issue #2: frozen inputs — scale/infeasibility configs + popdgp population-view
 - [DONE] pyproject: added `popdgp` extra pinned by git URL @ main SHA 402fb235ff116629fdb50304cc41cb2381a656f0.
 - [DONE] Tests: test_configs.py (9), test_frozen_targets_stub.py (6), test_population_view.py (7, skips w/o popdgp). 
 - [DONE] VERIFIED: full suite w/ popdgp+methods extras = 87 passed (65 inherited + 22 new), exit 0. ruff check + format CLEAN (exit 0).
-- [next] Verify base-install skip-clean (no popdgp/torch) = the 3 popdgp/torch tests skip, everything else passes. Then PR #2.
+- [DONE] Base-install verified: 71 passed, 3 skipped (exit 0). Skips = test_gradient (torch), test_sgd_parity (torch), test_population_view (popdgp). configs + frozen_targets_stub tests RUN on base install. torch/popdgp/populace all absent — lazy-import discipline holds for the new popdgp module too.
+- [DONE] End-to-end integration verified: a 100-target/5000-record scale point runs through every classical method (all converge, 3e-11..7e-9); an infeasible point reports converged=False across methods. Configs produce real, method-runnable problems.
+- [DONE] Self-review of the 3 new modules: no real defects. Tightened one population_view docstring line (coverage delta "exactly zero below cap", not "~0"). Column-set consistency across candidate/holdout/view is airtight (resolved once, threaded to all 4 builders).
+- [next] Final cleanup: delete PROGRESS.md, then PR #2 (stacked on method-surface / PR #3). DO NOT merge.
+
+### VERIFICATION SUMMARY (issue #2 branch)
+- Base install (dev only): 71 passed, 3 skipped, exit 0.
+- popdgp + methods extras: 87 passed, exit 0 (1 benign torch sparse-CSR warning).
+- ruff check + format: exit 0.
+- popdgp pinned @ 402fb235ff116629fdb50304cc41cb2381a656f0 (main SHA, popdgp#1 merged).
+
+### OPEN QUESTIONS FOR LEAD
+1. STACKING: frozen-inputs is based on method-surface (PR #3), not origin/main, because origin/main lacks the synthetic builders #2 needs. PR #2 will show only the 3 new modules + tests IF GitHub bases it on method-surface; if #3 merges first, rebase frozen-inputs onto main and the PR is clean. Confirm the merge order (merge #3, then #2).
+2. sparsity-paper#17 still OPEN — frozen-target import stays stubbed (frozen_targets.py, TODO markers). Unblocks the held-out-family split + real Ledger surface + pinned candidate-frame artifact.
+3. Synthetic population-view bridge: population_view.py derives views from the problem's continuous matrix rows (a stand-in for the real Ledger/populace view taxonomy). When the frozen surface lands, swap default_views_for_problem for the real views; the delta wiring itself is unchanged.

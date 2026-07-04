@@ -259,7 +259,9 @@ def population_view_delta(
     weights (post) against the *same* holdout, using
     :func:`popdgp.views.harness_scorecard` (pinned), and returns the per-(view,
     metric) change. Coverage is reweight-invariant, so ``prdc_coverage`` deltas
-    ~0 -- a built-in check that the wiring changed only the weights.
+    are exactly zero when the candidate stays at or below ``max_points`` (no
+    weighted resample) -- a built-in check that the wiring changed only the
+    weights, not the candidate's support.
 
     Args:
         problem: The calibration problem the weights solve.
