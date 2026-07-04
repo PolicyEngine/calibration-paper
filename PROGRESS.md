@@ -8,7 +8,11 @@
     - BASE (uv sync --group dev; torch+populace ABSENT): PYTEST_EXIT=0 -> 56 passed, 2 skipped. Skips = test_gradient.py + test_sgd_parity.py, reason "methods extra (torch) not installed". R present (Rscript + survey TRUE) so r_parity RAN.
     - METHODS (uv sync --extra methods --group dev; torch 2.12.1 + populace-calibrate/frame 0.1.0): PYTEST_EXIT=0 -> 65 passed, 0 failed, 0 skipped, 1 warning. The warning is the torch sparse-CSR beta notice from sgd.py:139 (torch-internal, one-time, numerics unchanged) -- benign.
     - Note: dist `populace-calibrate` installs into the `populace` namespace; import path is `populace.calibrate` (NOT `populace_calibrate`). Parity test uses importorskip("populace.calibrate").
-  - [in progress] Bounded self-review of full diff vs origin/main (origin/main @ 107373f has only PLAN.md+README.md; all 24 files are new additions).
+  - [DONE] Bounded self-review of full diff vs origin/main (origin/main @ 107373f has only PLAN.md+README.md; all 24 files are new additions). Read every changed file once. VERDICT: no real defects; NO fixes needed.
+    - Verified end-to-end: `cal --help`, `cal methods`, `cal demo` all run (base env), demo exit 0, all classical methods converge (raking/entropy 7e-13, greg/chi2 1.5e-10, logit 6e-14), 0 negative weights. The previously-broken entry point works.
+    - ruff check . = exit 0 ("All checks passed"); ruff format --check . = exit 0 (19 files formatted). No stray/junk files.
+    - Minor cosmetic non-issues intentionally LEFT (fixing adds churn/coupling for no correctness gain): (1) classical.py:427-429 `#:` Sphinx attr-comment sits above the `calibrate_distance` function rather than a constant -- harmless comment; (2) `MethodResult` is used publicly (smoke.py imports it) but not in methods.__all__ -- Python doesn't enforce __all__, import works; (3) `_extreme_shift_problem` duplicated in test_gradient.py + test_classical.py -- deliberate test-module self-containment.
+  - [next] Final cleanup: delete PROGRESS.md, commit, open PR via gh --body-file. DO NOT merge.
 
 ## State
 - Resuming killed predecessors. Worktree branch `method-surface` @ dc14c01.
