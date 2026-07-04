@@ -22,9 +22,13 @@
 3. [DONE] Fixed over-strict SGD infeasible assertion (test_gradient.py). 6 gradient tests PASS.
 4. [DONE] cli/ package (cal methods, cal demo) — fixes broken entry point. 8 CLI tests PASS. Mirrors sparsity-paper cli/ dispatcher.
 5. [DONE] Removed dead rparity=[rpy2] extra; reconciled classical.py + test_classical.py docstrings to Rscript-subprocess.
-6. IN PROGRESS: verify full green both envs → PR on method-surface.
+6. [DONE] Full green BOTH envs:
    - BASE install: 56 passed, 2 skipped (gradient + sgd_parity skip w/o torch; r_parity RAN, R present).
-   - TODO: run full suite WITH methods extra (all should pass).
+   - METHODS extra: 65 passed, 0 failed.
+   - Fixed test_registry lazy-import invariant to run in a SUBPROCESS (was a latent failure: full-suite-with-methods polluted sys.modules so the in-process check failed — real isolation bug in inherited test).
+   - Quieted torch sparse-invariant UserWarning via check_sparse_tensor_invariants(False) (numerics unchanged; the "beta state" notice is torch-internal, unavoidable, populace emits it too).
+   - ruff check + format CLEAN across all files (removed 2 unused imports in problem.py; noqa B007 on the Newton loop counter whose terminal value is used).
+7. NEXT: /cycle review of the full diff, then PR.
 
 ## VERIFIED empirically this session
 - R-parity (Rscript+survey present here): raking 6e-15, linear/GREG 1.3e-10, logit 6e-15 g-weight agreement. Ours converge TIGHTER than R's default epsilon 1e-7 — confirms inherited note.

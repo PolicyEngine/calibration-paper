@@ -146,7 +146,9 @@ def _newton_calibrate(
     best_lambdas = lambdas.copy()
     best_residual = np.inf
     iterations = 0
-    for iterations in range(1, max_iter + 1):
+    # `iterations` is used after the loop (its terminal value is the Newton-step
+    # count reported on the solution), which B007 does not see -- hence the noqa.
+    for iterations in range(1, max_iter + 1):  # noqa: B007
         u = a.T @ lambdas
         g = calibration_function(u)
         w = w0 * g
@@ -255,6 +257,7 @@ def raking_weights(
         A :class:`CalibrationSolution` with strictly positive weights.
     """
     a = _as_dense_columns(matrix)
+
     # Clip the exponent for numerical safety; exp overflow on a wild Newton step
     # would poison the Jacobian. The clip is wide enough never to bind at a
     # sensible solution (g in [e^-30, e^30]).
@@ -326,8 +329,13 @@ def chi_square_weights(
         return ((g > lower) & (g < upper)).astype(np.float64)
 
     return _newton_calibrate(
-        a, b, w0, calibration_function=f, calibration_derivative=f_prime,
-        tol=tol, max_iter=max_iter,
+        a,
+        b,
+        w0,
+        calibration_function=f,
+        calibration_derivative=f_prime,
+        tol=tol,
+        max_iter=max_iter,
     )
 
 
@@ -393,8 +401,13 @@ def logit_weights(
         return (d_num * denominator - numerator * d_den) / denominator**2
 
     return _newton_calibrate(
-        a, b, w0, calibration_function=f, calibration_derivative=f_prime,
-        tol=tol, max_iter=max_iter,
+        a,
+        b,
+        w0,
+        calibration_function=f,
+        calibration_derivative=f_prime,
+        tol=tol,
+        max_iter=max_iter,
     )
 
 
@@ -445,9 +458,13 @@ def calibrate_distance(
         ValueError: On an unknown ``distance``, or ``"logit"`` without bounds.
     """
     if distance == "linear":
-        return linear_weights(matrix, target, initial_weights, tol=tol, max_iter=max_iter)
+        return linear_weights(
+            matrix, target, initial_weights, tol=tol, max_iter=max_iter
+        )
     if distance == "raking":
-        return raking_weights(matrix, target, initial_weights, tol=tol, max_iter=max_iter)
+        return raking_weights(
+            matrix, target, initial_weights, tol=tol, max_iter=max_iter
+        )
     if distance == "chi_square":
         return chi_square_weights(
             matrix, target, initial_weights, bounds=bounds, tol=tol, max_iter=max_iter

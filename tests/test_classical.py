@@ -121,7 +121,10 @@ def test_bounded_methods_still_hit_feasible_targets() -> None:
     problem = feasible_problem(n_records=200, n_targets=8, seed=1).problem
     for distance in ("chi_square", "logit"):
         solution = calibrate_distance(
-            distance, problem.matrix, problem.target, problem.initial_weights,
+            distance,
+            problem.matrix,
+            problem.target,
+            problem.initial_weights,
             bounds=BOUNDS,
         )
         assert solution.converged, distance
@@ -162,7 +165,9 @@ def test_margins_problem_is_the_raking_regime() -> None:
     [
         lambda p: raking_weights(p.matrix, p.target, p.initial_weights),
         lambda p: linear_weights(p.matrix, p.target, p.initial_weights),
-        lambda p: logit_weights(p.matrix, p.target, p.initial_weights, bounds=(0.2, 5.0)),
+        lambda p: logit_weights(
+            p.matrix, p.target, p.initial_weights, bounds=(0.2, 5.0)
+        ),
     ],
 )
 def test_infeasible_surface_does_not_converge(solver) -> None:
@@ -196,14 +201,18 @@ def test_logit_requires_bounds_via_dispatch() -> None:
     """``calibrate_distance('logit', ...)`` without bounds is a clear error."""
     problem = feasible_problem(n_records=50, n_targets=3, seed=6).problem
     with pytest.raises(ValueError, match="logit calibration requires bounds"):
-        calibrate_distance("logit", problem.matrix, problem.target, problem.initial_weights)
+        calibrate_distance(
+            "logit", problem.matrix, problem.target, problem.initial_weights
+        )
 
 
 def test_invalid_bounds_are_rejected() -> None:
     """Bounds must bracket the design ratio 1 (L < 1 < U)."""
     problem = feasible_problem(n_records=50, n_targets=3, seed=7).problem
     with pytest.raises(ValueError, match="bracket the design ratio"):
-        logit_weights(problem.matrix, problem.target, problem.initial_weights, bounds=(1.2, 5.0))
+        logit_weights(
+            problem.matrix, problem.target, problem.initial_weights, bounds=(1.2, 5.0)
+        )
     with pytest.raises(ValueError, match="L < U"):
         chi_square_weights(
             problem.matrix, problem.target, problem.initial_weights, bounds=(5.0, 0.2)

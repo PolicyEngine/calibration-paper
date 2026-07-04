@@ -31,8 +31,7 @@ which is the point of reporting them.
 from __future__ import annotations
 
 from collections.abc import Sequence
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass
 
 import numpy as np
 from scipy import sparse
@@ -119,8 +118,7 @@ class CalibrationProblem:
         families = self.target_families or ("all",) * n_targets
         if len(families) != n_targets:
             raise ValueError(
-                f"target_families must have {n_targets} entries, got "
-                f"{len(families)}."
+                f"target_families must have {n_targets} entries, got {len(families)}."
             )
         object.__setattr__(self, "target_names", tuple(names))
         object.__setattr__(self, "target_families", tuple(families))
@@ -294,9 +292,7 @@ def weight_diagnostics(
     sum_sq = float(np.square(abs_w).sum())
     ess = float(abs_w.sum() ** 2 / sum_sq) if sum_sq > 0.0 else 0.0
     ratios = w / w0
-    percentiles = {
-        float(p): float(np.percentile(ratios, p)) for p in ratio_percentiles
-    }
+    percentiles = {float(p): float(np.percentile(ratios, p)) for p in ratio_percentiles}
     negative_share = float(np.mean(w < 0.0))
     return WeightDiagnostics(
         effective_sample_size=ess,

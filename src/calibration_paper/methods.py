@@ -162,7 +162,9 @@ def _classical_constructor(
     """
 
     def calibrate(
-        problem: CalibrationProblem, *, seed: int = 0  # noqa: ARG001 - deterministic
+        problem: CalibrationProblem,
+        *,
+        seed: int = 0,  # noqa: ARG001 - deterministic
     ) -> CalibrationOutcome:
         from calibration_paper.classical import calibrate_distance
 
@@ -200,9 +202,7 @@ def _sgd_constructor(*, max_weight_ratio: float | None = None) -> CalibratorFn:
         imports without torch and a run without it is a recorded skip.
     """
 
-    def calibrate(
-        problem: CalibrationProblem, *, seed: int = 0
-    ) -> CalibrationOutcome:
+    def calibrate(problem: CalibrationProblem, *, seed: int = 0) -> CalibrationOutcome:
         from calibration_paper.sgd import sgd_calibrate
 
         solution = sgd_calibrate(
@@ -383,9 +383,7 @@ class MethodResult:
     relative_errors: np.ndarray
 
 
-def run_method(
-    key: str, problem: CalibrationProblem, *, seed: int = 0
-) -> MethodResult:
+def run_method(key: str, problem: CalibrationProblem, *, seed: int = 0) -> MethodResult:
     """Run one registered method on ``problem`` and compute its diagnostics.
 
     The inner cell of the sweep: construct the method's adapter, calibrate, then

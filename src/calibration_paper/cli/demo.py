@@ -45,9 +45,7 @@ def main(argv: list[str] | None = None) -> int:
     results = run_classical_demo(seed=args.seed, n_records=args.n_records)
 
     key_width = max(len(r.key) for r in results)
-    header = (
-        f"{'method':<{key_width}}  conv   max_rel_err       ess  ess%   neg%"
-    )
+    header = f"{'method':<{key_width}}  conv   max_rel_err       ess  ess%   neg%"
     print(f"Classical calibration demo (seed={args.seed}, n={args.n_records})")
     print(header)
     print("-" * len(header))

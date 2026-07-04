@@ -41,9 +41,7 @@ def test_estimates_match_between_dense_and_sparse() -> None:
     )
     assert sparse_problem.is_sparse
     w = np.array([1.5, 0.5, 2.0])
-    np.testing.assert_allclose(
-        sparse_problem.estimates(w), dense.estimates(w)
-    )
+    np.testing.assert_allclose(sparse_problem.estimates(w), dense.estimates(w))
     np.testing.assert_allclose(sparse_problem.dense(), dense.matrix)
 
 

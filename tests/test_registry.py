@@ -7,6 +7,7 @@ lets CI run without the ``methods`` extra.
 
 from __future__ import annotations
 
+import subprocess
 import sys
 
 from calibration_paper import methods
@@ -75,12 +76,29 @@ def test_importing_registry_does_not_import_torch_or_populace() -> None:
     This is the load-bearing invariant -- if a constructor imported torch or
     populace at module scope, CI (base install) would fail to import the
     registry at all.
+
+    Checked in a *fresh* subprocess, not against this process's ``sys.modules``:
+    with the ``methods`` extra installed, other tests in the same session import
+    torch/populace, so the ambient module table is polluted and cannot answer
+    "did importing the registry import torch". A clean interpreter that imports
+    only the registry and inspects its own ``sys.modules`` is the honest check,
+    and it holds whether or not the heavy deps are installed.
     """
-    # The registry is already imported (top of this file). Neither heavy
-    # dependency should have been dragged in by that import.
-    assert "torch" not in sys.modules
-    assert "populace" not in sys.modules
-    assert "populace.calibrate" not in sys.modules
+    probe = (
+        "import sys;"
+        "import calibration_paper.methods;"
+        "leaked = [m for m in ('torch', 'populace', 'populace.calibrate')"
+        " if m in sys.modules];"
+        "print(','.join(leaked));"
+        "sys.exit(1 if leaked else 0)"
+    )
+    result = subprocess.run(
+        [sys.executable, "-c", probe], capture_output=True, text=True
+    )
+    assert result.returncode == 0, (
+        "importing calibration_paper.methods dragged in a heavy method package: "
+        f"{result.stdout.strip()!r} (the constructors must import lazily)."
+    )
 
 
 def test_bounded_methods_declare_their_bounds() -> None:

@@ -71,9 +71,7 @@ def test_sgd_compromises_on_an_infeasible_surface() -> None:
     assert np.isfinite(solution.weights).all()
     errors = target_relative_errors(problem, solution.weights)
     contradiction = [
-        i
-        for i, fam in enumerate(problem.target_families)
-        if fam == "contradiction"
+        i for i, fam in enumerate(problem.target_families) if fam == "contradiction"
     ]
     # The two contradiction rows are the SAME functional (identical matrix rows)
     # demanding +20% and -20% of the baseline, so A@w produces one common value:

@@ -133,9 +133,7 @@ def test_sgd_matches_populace_calibrate_weights() -> None:
 
     ours = sgd_calibrate(a, b, w0_compiled, seed=0)
 
-    np.testing.assert_allclose(
-        ours.weights, result.weights, rtol=1e-4, atol=1e-3
-    )
+    np.testing.assert_allclose(ours.weights, result.weights, rtol=1e-4, atol=1e-3)
 
 
 def test_sgd_matches_populace_final_loss() -> None:

@@ -111,8 +111,7 @@ def capped_weighted_mape(
     target = np.asarray(target, dtype=np.float64)
     if estimates.shape != target.shape:
         raise ValueError(
-            f"estimates and target must align, got {estimates.shape} vs "
-            f"{target.shape}."
+            f"estimates and target must align, got {estimates.shape} vs {target.shape}."
         )
     if not (np.isfinite(estimates).all() and np.isfinite(target).all()):
         raise ValueError("capped_weighted_mape requires finite inputs.")
@@ -130,12 +129,19 @@ def _torch_matrix(matrix, torch):
     """
     if sparse.issparse(matrix):
         csr = matrix.tocsr().astype(np.float32)
-        return torch.sparse_csr_tensor(
-            torch.from_numpy(np.asarray(csr.indptr, dtype=np.int64)),
-            torch.from_numpy(np.asarray(csr.indices, dtype=np.int64)),
-            torch.from_numpy(csr.data),
-            size=csr.shape,
-        )
+        # scipy already guarantees a valid CSR (sorted indices, correct indptr),
+        # so torch's per-construction invariant scan is redundant work here. Opt
+        # out of it explicitly -- both to skip the scan and to silence torch's
+        # "invariant checks are implicitly disabled" UserWarning, which the docs
+        # say to answer by opting in or out. Behavior is unchanged (the checks
+        # were already off by default).
+        with torch.sparse.check_sparse_tensor_invariants(enable=False):
+            return torch.sparse_csr_tensor(
+                torch.from_numpy(np.asarray(csr.indptr, dtype=np.int64)),
+                torch.from_numpy(np.asarray(csr.indices, dtype=np.int64)),
+                torch.from_numpy(csr.data),
+                size=csr.shape,
+            )
     return torch.tensor(np.asarray(matrix, dtype=np.float64), dtype=torch.float32)
 
 
@@ -195,9 +201,7 @@ def sgd_calibrate(
     if epochs <= 0:
         raise ValueError(f"epochs must be positive, got {epochs}.")
     if max_weight_ratio is not None and not (max_weight_ratio > 0):
-        raise ValueError(
-            f"max_weight_ratio must be positive, got {max_weight_ratio}."
-        )
+        raise ValueError(f"max_weight_ratio must be positive, got {max_weight_ratio}.")
 
     torch.manual_seed(seed)
     matrix_t = _torch_matrix(matrix, torch)

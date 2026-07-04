@@ -55,8 +55,7 @@ def main(argv: list[str] | None = None) -> int:
             else "-"
         )
         print(
-            f"{key:<{key_width}}  {method.family:<{family_width}}  "
-            f"{positive}  {bounds}"
+            f"{key:<{key_width}}  {method.family:<{family_width}}  {positive}  {bounds}"
         )
         print(f"{'':<{key_width}}    {method.description}")
     return 0

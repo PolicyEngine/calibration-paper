@@ -90,7 +90,9 @@ def feasible_problem(
     matrix = rng.normal(size=(n_targets, n_records))
     matrix[0, :] = 1.0  # a population-total target
     if n_targets >= 3:
-        matrix[1, :] = rng.lognormal(mean=0.0, sigma=0.5, size=n_records)  # positive sum
+        matrix[1, :] = rng.lognormal(
+            mean=0.0, sigma=0.5, size=n_records
+        )  # positive sum
         matrix[2, :] = (rng.random(n_records) < 0.4).astype(np.float64)  # a count
     w0 = rng.lognormal(mean=6.0, sigma=0.3, size=n_records)
     g_true = rng.uniform(ratio_low, ratio_high, size=n_records)
@@ -161,9 +163,7 @@ def margins_problem(
     return SyntheticProblem(problem=problem, true_weights=w_true)
 
 
-def infeasible_problem(
-    *, n_records: int = 200, seed: int = 0
-) -> SyntheticProblem:
+def infeasible_problem(*, n_records: int = 200, seed: int = 0) -> SyntheticProblem:
     """A surface with contradictory targets -- no reweighting can satisfy it.
 
     Two of the target rows are the *same* linear functional of the weights
