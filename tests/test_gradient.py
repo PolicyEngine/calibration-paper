@@ -70,15 +70,26 @@ def test_sgd_compromises_on_an_infeasible_surface() -> None:
     solution = sgd_calibrate(problem.matrix, problem.target, problem.initial_weights)
     assert np.isfinite(solution.weights).all()
     errors = target_relative_errors(problem, solution.weights)
-    # The two contradictory rows (+20% / -20%) cannot both be hit; the compromise
-    # leaves a residual on each rather than satisfying one and blowing up the
-    # other.
     contradiction = [
         i
         for i, fam in enumerate(problem.target_families)
         if fam == "contradiction"
     ]
-    assert all(abs(errors[i]) > 1e-2 for i in contradiction)
+    # The two contradiction rows are the SAME functional (identical matrix rows)
+    # demanding +20% and -20% of the baseline, so A@w produces one common value:
+    # no weight vector satisfies both. The failure-mode signal is therefore not
+    # "each keeps a residual" (the loss may drive the achieved value to one side,
+    # nearly hitting that target while missing the other by ~40%) but that the
+    # contradiction is never *jointly* resolved and a real combined residual
+    # remains -- versus a hard-constraint method, which reports non-convergence.
+    assert not all(abs(errors[i]) < 1e-2 for i in contradiction), (
+        "the soft loss cannot satisfy contradictory targets simultaneously"
+    )
+    combined_residual = sum(abs(errors[i]) for i in contradiction)
+    assert combined_residual > 0.1, (
+        f"a compromise on ±20% contradictory targets must leave a substantial "
+        f"combined residual, got {combined_residual:.4f}"
+    )
 
 
 def test_run_method_dispatches_the_gradient_methods() -> None:

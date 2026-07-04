@@ -18,9 +18,9 @@
 
 ## Next
 1. [DONE] test_r_parity.py — Rscript subprocess, skip-clean. 4 tests PASS vs real R survey here.
-2. test_sgd_parity.py — populace-calibrate parity, skip-clean when methods extra absent. PROTOTYPED: bit-identical (max rel diff 0.0) vs populace.calibrate.calibrate on its own compiled (A,b,w0).
-3. cli.py (`cal demo`, `cal methods`) — fix the broken entry point.
-4. Fix over-strict SGD infeasible assertion (test_gradient.py:81) — see decision below.
+2. [DONE] test_sgd_parity.py — populace parity, skip-clean. 3 tests PASS (bit-identical to populace.calibrate).
+3. [DONE] Fixed over-strict SGD infeasible assertion (test_gradient.py). 6 gradient tests PASS.
+4. cli.py (`cal demo`, `cal methods`) — fix the broken entry point (pyproject cal = calibration_paper.cli:main).
 5. Reconcile pyproject rparity extra + docstrings to Rscript-not-rpy2.
 6. Full green both envs → PR on method-surface.
 
