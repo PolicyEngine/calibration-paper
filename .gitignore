@@ -1,0 +1,32 @@
+# Python local state
+/.venv/
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Quarto outputs (the paper)
+/.quarto/
+/_output/
+/.jupyter_cache/
+/paper/index.tex
+
+# Experiment outputs (sweep results, metrics CSVs, per-target diagnostics, figures)
+artifacts/
+benchmarks/results/
+runs/
+results/
+
+# LaTeX auxiliary files
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.synctex.gz
