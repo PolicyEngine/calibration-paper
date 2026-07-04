@@ -1,5 +1,15 @@
 # PROGRESS — calibration-method-surface (issue #1)
 
+## SESSION 2026-07-04 (new agent, resuming @ f4312eb)
+- Spec re-checked: issue #1 + #2 text MATCHES this file's understanding (the "or a vetted Python equivalent with R-parity tests" clause legitimizes the Rscript path). popdgp#1 now CLOSED; popdgp main SHA = 402fb235ff116629fdb50304cc41cb2381a656f0. sparsity-paper#17 still OPEN (stub-only).
+- TASK: (a) re-verify BOTH envs green myself (pipefail on any piped pytest); (b) bounded self-review of full diff vs origin/main; (c) delete PROGRESS.md + open PR via gh --body-file. Do NOT merge.
+- Progress log below (updated every push):
+  - [DONE] BOTH ENVS RE-VERIFIED MYSELF (no pipe, explicit exit code):
+    - BASE (uv sync --group dev; torch+populace ABSENT): PYTEST_EXIT=0 -> 56 passed, 2 skipped. Skips = test_gradient.py + test_sgd_parity.py, reason "methods extra (torch) not installed". R present (Rscript + survey TRUE) so r_parity RAN.
+    - METHODS (uv sync --extra methods --group dev; torch 2.12.1 + populace-calibrate/frame 0.1.0): PYTEST_EXIT=0 -> 65 passed, 0 failed, 0 skipped, 1 warning. The warning is the torch sparse-CSR beta notice from sgd.py:139 (torch-internal, one-time, numerics unchanged) -- benign.
+    - Note: dist `populace-calibrate` installs into the `populace` namespace; import path is `populace.calibrate` (NOT `populace_calibrate`). Parity test uses importorskip("populace.calibrate").
+  - [in progress] Bounded self-review of full diff vs origin/main (origin/main @ 107373f has only PLAN.md+README.md; all 24 files are new additions).
+
 ## State
 - Resuming killed predecessors. Worktree branch `method-surface` @ dc14c01.
 - Salvaged src is HIGH QUALITY and near-complete: problem/classical/methods/sgd/synthetic/smoke all solid.
