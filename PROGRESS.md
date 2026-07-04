@@ -26,4 +26,11 @@ Issue #2: frozen inputs — scale/infeasibility configs + popdgp population-view
 
 ### Progress log (updated every push)
 - [DONE] Worktree created + re-pointed onto method-surface. Spec re-checked. popdgp API read.
-- [in progress] Writing configs.py.
+- [DONE] configs.py — ScaleSweepConfig (10^2->10^4, log grid, 3/decade, 3 seeds), InfeasibilityConfig (record scales 200/2k/20k), SweepPoint, ConfigSuite/DEFAULT_CONFIGS. Uses synthetic.py builders only (unblocked).
+- [DONE] frozen_targets.py — STUB module, all 3 entry points raise FrozenTargetsError w/ TODO(sparsity-paper#17); NO machinery copied (pin-only rule). Renamed exc to satisfy N818.
+- [DONE] population_view.py — pre/post popdgp delta via REAL popdgp.views.harness_scorecard (pinned @402fb235). Builds candidate/holdout from (A,b,w0); lazy popdgp import.
+  - CORRECTNESS FINDING (verified): coverage delta is EXACTLY 0 only below the resample cap (candidate not weight-resampled; PRDC coverage = unweighted support geometry + fixed holdout weights). Above cap, weighted resample adds MC noise. Raised default max_points to 4096 and documented the exactness condition. precision/density are point-weighted so their deltas are nonzero (only coverage is the invariance check); energy delta nonzero when weights move. Empirically confirmed.
+- [DONE] pyproject: added `popdgp` extra pinned by git URL @ main SHA 402fb235ff116629fdb50304cc41cb2381a656f0.
+- [DONE] Tests: test_configs.py (9), test_frozen_targets_stub.py (6), test_population_view.py (7, skips w/o popdgp). 
+- [DONE] VERIFIED: full suite w/ popdgp+methods extras = 87 passed (65 inherited + 22 new), exit 0. ruff check + format CLEAN (exit 0).
+- [next] Verify base-install skip-clean (no popdgp/torch) = the 3 popdgp/torch tests skip, everything else passes. Then PR #2.
