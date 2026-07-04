@@ -46,6 +46,15 @@ viz = [
     # Figures for the sweep. matplotlib exports vector PDF/SVG for LaTeX natively.
     "matplotlib>=3.8",
 ]
+# The population-view harness for the pre/post-calibration delta
+# (`calibration_paper.population_view`). popdgp is the eval-only harness extracted
+# from imputation-paper (popdgp#1, now merged); it is not on PyPI yet, so it is a
+# git pin by commit SHA (mirroring the populace pins), imported lazily so the base
+# install and the synthetic sweep never require it. Repoint the SHA to a later
+# popdgp main as the harness advances.
+popdgp = [
+    "popdgp @ git+https://github.com/PolicyEngine/popdgp.git@402fb235ff116629fdb50304cc41cb2381a656f0",
+]
 
 [dependency-groups]
 dev = [
