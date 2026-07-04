@@ -1,0 +1,80 @@
+[project]
+name = "calibration-paper"
+version = "0.1.0"
+description = "Paper and benchmarks for gradient-descent survey calibration vs classical calibration"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2",
+    "pandas>=2.3",
+    "scipy>=1.13",
+]
+
+[project.scripts]
+cal = "calibration_paper.cli:main"
+
+[project.optional-dependencies]
+# The gradient calibrator whose validity this paper defends, plus the classical
+# tools it is benchmarked against. Kept out of the base install so CI (and
+# anyone who only wants the toy harness) does not have to resolve the git
+# dependencies, torch, or an R toolchain. `methods.py` imports each package
+# lazily inside its constructor, so the registry can be imported and listed
+# without any of these installed. The classical adapters run in pure NumPy on
+# the base install; this extra only adds the tools the parity tests check them
+# against.
+methods = [
+    # The subject of the paper: populace-calibrate's Adam-on-log-weights
+    # calibrator over a populace Frame. Git deps against the populace monorepo
+    # subdirectories (populace is not yet on PyPI). Pinned to the pinned-Ledger
+    # artifact commit (populace#287); repoint to a later main SHA as the stack
+    # advances.
+    "populace-calibrate @ git+https://github.com/PolicyEngine/populace.git@2c93936a15d874bd1b68721d8f1b7566864e3225#subdirectory=packages/populace-calibrate",
+    "populace-frame @ git+https://github.com/PolicyEngine/populace.git@2c93936a15d874bd1b68721d8f1b7566864e3225#subdirectory=packages/populace-frame",
+    # The array-level gradient calibrator (the paper's SGD contender defined by
+    # its objective) needs torch; it is the same capped-weighted-MAPE objective
+    # populace-calibrate optimizes, verified against it by a parity test.
+    "torch>=2.2",
+]
+# The classical-calibration reference implementation the Python adapters are
+# checked against: R's `survey` package via rpy2. Installed only for the
+# R-parity tests (skipped when absent), never required to run the sweep.
+rparity = [
+    "rpy2>=3.5",
+]
+viz = [
+    # Figures for the sweep. matplotlib exports vector PDF/SVG for LaTeX natively.
+    "matplotlib>=3.8",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.8",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["calibration_paper"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+# The `methods` extra pins populace-calibrate/populace-frame as git URLs (not on
+# PyPI yet); hatchling refuses direct references by default.
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/calibration_paper"]
