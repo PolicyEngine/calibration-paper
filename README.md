@@ -11,3 +11,7 @@ operator).
 Target venue: Survey Methodology or Journal of Official Statistics (both
 diamond open access); arXiv preprint on completion. See PLAN.md for the
 experiment design.
+
+## License
+
+Code in this repository is released under the [MIT License](LICENSE). Original text and figures are released under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) with attribution to PolicyEngine. Third-party data and materials keep their own terms.
