@@ -53,6 +53,22 @@ comparison is against the field's actual tools, not reimplementations.
   imported from popdgp.
 - Runtime and memory vs target count.
 
+## Poverty comparisons
+
+For the US and UK builds, report survey poverty estimates as comparison
+diagnostics. Exclude poverty rates and counts from calibration targets,
+held-out target scores, candidate rankings, parameter selection and release
+thresholds. This applies to the US Official and Supplemental Poverty Measures
+and UK Households Below Average Income poverty estimates. Closeness to a survey
+poverty estimate must not determine weights, imputations, support selection or
+the chosen build, including through an informal review of the results.
+
+State each comparison's definition, population, income period and weight basis.
+Correct measurement or implementation errors using independently justified
+evidence, then report any remaining difference. Income and benefit totals may
+still serve as separately justified targets; their use does not make a poverty
+estimate a target.
+
 ## Honesty rules
 
 Same as the sibling papers: every number regenerates from committed run
