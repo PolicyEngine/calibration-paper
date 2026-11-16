@@ -3,7 +3,7 @@
 Runs every *classical* method (the pure-NumPy ones, always available) on a small
 feasible synthetic problem and returns their diagnostics, so ``cal demo`` and the
 CI tests push real methods through the real diagnostics without torch or
-populace. The gradient methods are exercised by ``tests/test_gradient.py`` when
+Microcosm. The gradient methods are exercised by ``tests/test_gradient.py`` when
 the ``methods`` extra is installed.
 """
 

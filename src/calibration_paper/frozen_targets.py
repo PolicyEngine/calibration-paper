@@ -16,7 +16,7 @@ When sparsity-paper#17 merges, the plan is:
 
 1. Add ``frozen-targets @ git+https://github.com/PolicyEngine/sparsity-paper.git@<sha>``
    (the exported package/subdirectory) to the ``methods``/data extra in
-   ``pyproject.toml``, pinned by commit SHA (mirroring the populace and popdgp
+   ``pyproject.toml``, pinned by commit SHA (mirroring the Microcosm and popdgp
    pins).
 2. Replace each ``raise FrozenTargetsError(...)`` body below with a lazy
    ``import`` of the exported symbol and a thin adapter to this repo's
@@ -27,7 +27,7 @@ When sparsity-paper#17 merges, the plan is:
 The scale-sweep and infeasibility configs in :mod:`calibration_paper.configs`
 are deliberately independent of this module (they use the synthetic builders),
 so the unblocked half of issue #2 is fully functional now; only the frozen
-populace/Ledger surface waits here.
+Microcosm/Ledger surface waits here.
 """
 
 from __future__ import annotations

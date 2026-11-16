@@ -23,16 +23,16 @@ cal = "calibration_paper.cli:main"
 # the base install; this extra only adds the tools the parity tests check them
 # against.
 methods = [
-    # The subject of the paper: populace-calibrate's Adam-on-log-weights
-    # calibrator over a populace Frame. Git deps against the populace monorepo
-    # subdirectories (populace is not yet on PyPI). Pinned to the pinned-Ledger
-    # artifact commit (populace#287); repoint to a later main SHA as the stack
+    # The subject of the paper: microcosm-calibrate's Adam-on-log-weights
+    # calibrator over a Microcosm Frame. Git deps against the Microcosm monorepo
+    # subdirectories (Microcosm is not yet on PyPI). Pinned to the pinned-Ledger
+    # artifact commit (microcosm#287); repoint to a later main SHA as the stack
     # advances.
     "populace-calibrate @ git+https://github.com/PolicyEngine/populace.git@2c93936a15d874bd1b68721d8f1b7566864e3225#subdirectory=packages/populace-calibrate",
     "populace-frame @ git+https://github.com/PolicyEngine/populace.git@2c93936a15d874bd1b68721d8f1b7566864e3225#subdirectory=packages/populace-frame",
     # The array-level gradient calibrator (the paper's SGD contender defined by
     # its objective) needs torch; it is the same capped-weighted-MAPE objective
-    # populace-calibrate optimizes, verified against it by a parity test.
+    # microcosm-calibrate optimizes, verified against it by a parity test.
     "torch>=2.2",
 ]
 # The R-parity oracle (R's `survey` package) is an external toolchain, not a
@@ -49,7 +49,7 @@ viz = [
 # The population-view harness for the pre/post-calibration delta
 # (`calibration_paper.population_view`). popdgp is the eval-only harness extracted
 # from imputation-paper (popdgp#1, now merged); it is not on PyPI yet, so it is a
-# git pin by commit SHA (mirroring the populace pins), imported lazily so the base
+# git pin by commit SHA (mirroring the Microcosm pins), imported lazily so the base
 # install and the synthetic sweep never require it. Repoint the SHA to a later
 # popdgp main as the harness advances.
 popdgp = [

@@ -21,7 +21,7 @@ target surface at modern scale. This paper is that comparison — the
 | `chi_square` | Quadratic distance calibration | with and without L/U bounds |
 | `entropy` | Entropy balancing / exponential tilting | KL-from-design |
 | `logit_bounded` | Bounded calibration (logit link) | hard weight-ratio bounds |
-| `sgd` | Gradient-descent calibration (populace-calibrate) | capped relative-error loss, torch |
+| `sgd` | Gradient-descent calibration (microcosm-calibrate) | capped relative-error loss, torch |
 | `sgd_bounded` | SGD + hard weight-ratio bound | the landmine guard variant |
 
 Classical implementations from established libraries where possible (R
@@ -30,7 +30,7 @@ comparison is against the field's actual tools, not reimplementations.
 
 ## Protocol
 
-- Frozen inputs, one operator varies: a pinned candidate frame (populace US
+- Frozen inputs, one operator varies: a pinned candidate frame (Microcosm US
   support artifact, hash-recorded) and a pinned hierarchical target surface
   (Ledger facts: national + state families; the sparsity-paper's frozen-target
   machinery reused wholesale).

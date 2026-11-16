@@ -43,7 +43,7 @@ columns. The candidate table carries those columns plus its weight column; the
 holdout is an independent reference draw from the same generative structure,
 fixed across the pre/post calls (a survey's holdout does not change when we
 recalibrate the candidate). On the *real* frozen surface (issue #2's blocked
-half) the views come from the Ledger/populace variable taxonomy instead; this
+half) the views come from the Ledger/Microcosm variable taxonomy instead; this
 synthetic bridge lets the delta wiring be built and tested against the real
 popdgp API now.
 """
@@ -171,7 +171,7 @@ def default_views_for_problem(
 
     Wraps the continuous feature columns as one view named ``"synthetic"``, with
     no imputed-target tail block (the synthetic measures are all "carried"
-    columns). On the real frozen surface this is replaced by the Ledger/populace
+    columns). On the real frozen surface this is replaced by the Ledger/Microcosm
     view taxonomy.
 
     Args:

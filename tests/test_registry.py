@@ -1,7 +1,7 @@
 """The registry imports and lists on the base install, with no heavy-dep leak.
 
 These are the "the surface is well-formed" tests: they must pass on the base
-install (no torch, no populace), so they guard the lazy-import discipline that
+install (no torch, no Microcosm), so they guard the lazy-import discipline that
 lets CI run without the ``methods`` extra.
 """
 
@@ -70,16 +70,16 @@ def test_every_method_has_citation_and_description() -> None:
         assert method.citation_key.strip(), key
 
 
-def test_importing_registry_does_not_import_torch_or_populace() -> None:
+def test_importing_registry_does_not_import_torch_or_microcosm() -> None:
     """Lazy imports hold: the registry module pulls in no heavy method package.
 
     This is the load-bearing invariant -- if a constructor imported torch or
-    populace at module scope, CI (base install) would fail to import the
+    Microcosm at module scope, CI (base install) would fail to import the
     registry at all.
 
     Checked in a *fresh* subprocess, not against this process's ``sys.modules``:
     with the ``methods`` extra installed, other tests in the same session import
-    torch/populace, so the ambient module table is polluted and cannot answer
+    torch/Microcosm, so the ambient module table is polluted and cannot answer
     "did importing the registry import torch". A clean interpreter that imports
     only the registry and inspects its own ``sys.modules`` is the honest check,
     and it holds whether or not the heavy deps are installed.

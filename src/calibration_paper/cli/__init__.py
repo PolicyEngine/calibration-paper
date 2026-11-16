@@ -5,7 +5,7 @@ A small dispatcher, mirroring the sibling papers' CLIs (``l0`` in sparsity-paper
 driver's ``main()``. Commands are imported lazily so a command that needs a heavy
 dependency does not drag it in for a command that does not -- the method surface
 (``cal methods``) and the classical demo (``cal demo``) run on the base install
-with no torch, no populace, no R.
+with no torch, no Microcosm, no R.
 
 The console entry point is declared in ``pyproject.toml`` as
 ``cal = "calibration_paper.cli:main"``.

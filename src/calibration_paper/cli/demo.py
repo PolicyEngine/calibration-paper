@@ -5,7 +5,7 @@ problem, run every classical method (:mod:`calibration_paper.smoke`), and print
 each one's convergence, worst target miss, effective sample size, and
 negative-weight incidence. Proof that the registry, adapters, solvers, and
 diagnostics all connect -- and a first look at how the classical methods differ
-on one problem -- without torch, populace, or R. The gradient methods need the
+on one problem -- without torch, Microcosm, or R. The gradient methods need the
 ``methods`` extra; the sweep (issue #2) runs the full surface on the frozen
 inputs.
 """

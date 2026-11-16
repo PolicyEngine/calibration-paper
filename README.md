@@ -2,7 +2,7 @@
 
 Paper and experiment workspace for gradient-descent survey calibration at
 scale, benchmarked against classical calibration methods. The "calibrate"
-operator's dossier in the populace publication portfolio — sibling of
+operator's dossier in the Microcosm publication portfolio — sibling of
 [sparsity-paper](https://github.com/PolicyEngine/sparsity-paper) (sparse selection under a
 fixed calibrator) and
 [imputation-paper](https://github.com/PolicyEngine/imputation-paper) (the fill

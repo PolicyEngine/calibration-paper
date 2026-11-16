@@ -3,7 +3,7 @@
 This is the array-level form of the calibrator the paper defends -- the exact
 objective and algorithm ``populace.calibrate`` uses, run directly on a
 :class:`~calibration_paper.problem.CalibrationProblem`'s ``(A, b, w0)`` rather
-than a populace Frame. Fixing it at the array level means the gradient method
+than a Microcosm Frame. Fixing it at the array level means the gradient method
 and the classical methods (:mod:`calibration_paper.classical`) solve the
 *identical* linear problem, which is the whole point of the comparison.
 
@@ -14,7 +14,7 @@ The objective is capped fixed-scale weighted MAPE
 minimized by Adam over the **log-weights** ``log w`` (so ``w = exp(log w) > 0``
 by construction -- the gradient method's positivity guarantee, matching raking
 and unlike GREG). The bounded variant adds a hard per-record ratio clamp
-``w <= max_weight_ratio * w0`` after every step (populace-calibrate's "landmine
+``w <= max_weight_ratio * w0`` after every step (microcosm-calibrate's "landmine
 guard"): a rare high-value, near-zero-weight record can never have its weight
 detonate on reweight.
 
@@ -43,17 +43,17 @@ __all__ = [
     "DEFAULT_TARGET_LOSS_CAP",
 ]
 
-#: Adam epochs. Matches populace-calibrate's default so the array form and the
+#: Adam epochs. Matches microcosm-calibrate's default so the array form and the
 #: package agree without a per-call override.
 DEFAULT_EPOCHS = 256
 
 #: Adam learning rate on the log-weights. Capped MAPE has a near-constant
-#: gradient away from zero, so this is deliberately small (populace-calibrate's
+#: gradient away from zero, so this is deliberately small (microcosm-calibrate's
 #: default) to avoid oscillating around feasible targets.
 DEFAULT_LEARNING_RATE = 0.02
 
 #: Per-target contribution cap for weighted MAPE: a target contributes at most a
-#: 1000%-scaled miss to the objective (populace-calibrate's default).
+#: 1000%-scaled miss to the objective (microcosm-calibrate's default).
 DEFAULT_TARGET_LOSS_CAP = 10.0
 
 
@@ -124,7 +124,7 @@ def capped_weighted_mape(
 def _torch_matrix(matrix, torch):
     """Torch operator for ``A``: sparse CSR when the matrix is sparse, else dense.
 
-    Mirrors populace-calibrate: a sparse ``A`` (the national hierarchical
+    Mirrors microcosm-calibrate: a sparse ``A`` (the national hierarchical
     surface) stays sparse so a step is SpMM, not a dense 1 GB multiply.
     """
     if sparse.issparse(matrix):
