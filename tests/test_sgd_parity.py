@@ -7,7 +7,7 @@ methods (:mod:`calibration_paper.classical`) solve the identical linear problem.
 That reimplementation is only trustworthy if it reproduces the package the paper
 actually names, ``populace.calibrate``.
 
-**How the parity is pinned.** We build a tiny populace :class:`~populace.frame.Frame`
+**How the parity is pinned.** We build a tiny Microcosm :class:`~populace.frame.Frame`
 and :class:`~populace.calibrate.TargetSet`, run ``populace.calibrate.calibrate``,
 then read back the problem it *compiled* -- its constraint matrix ``A``, target
 vector ``b``, and initial weights ``w0`` -- and run our :func:`sgd_calibrate` on
@@ -17,7 +17,7 @@ parameterization, and the same torch optimizer, the two must agree to floating
 point. This is the array form verified against the Frame form, not a loose
 "both roughly calibrate" check.
 
-Skipped unless the ``methods`` extra is installed (torch *and* populace); the
+Skipped unless the ``methods`` extra is installed (torch *and* Microcosm); the
 imports below ``importorskip`` both, so the base-install CI never runs -- or
 needs -- this module.
 """
@@ -28,31 +28,31 @@ import numpy as np
 import pandas as pd
 import pytest
 
-# The methods extra: torch (the optimizer) and populace (the reference). Either
+# The methods extra: torch (the optimizer) and Microcosm (the reference). Either
 # absent => skip the whole module, never fail.
 pytest.importorskip("torch", reason="methods extra (torch) not installed")
-populace_calibrate = pytest.importorskip(
+microcosm_calibrate = pytest.importorskip(
     "populace.calibrate", reason="methods extra (populace-calibrate) not installed"
 )
-populace_frame = pytest.importorskip(
+microcosm_frame = pytest.importorskip(
     "populace.frame", reason="methods extra (populace-frame) not installed"
 )
 
 from calibration_paper.sgd import sgd_calibrate  # noqa: E402
 
-EntitySchema = populace_frame.EntitySchema
-Frame = populace_frame.Frame
-Weights = populace_frame.Weights
-WeightKind = populace_frame.WeightKind
-Target = populace_calibrate.Target
-TargetSet = populace_calibrate.TargetSet
-populace_calibrate_fn = populace_calibrate.calibrate
+EntitySchema = microcosm_frame.EntitySchema
+Frame = microcosm_frame.Frame
+Weights = microcosm_frame.Weights
+WeightKind = microcosm_frame.WeightKind
+Target = microcosm_calibrate.Target
+TargetSet = microcosm_calibrate.TargetSet
+microcosm_calibrate_fn = microcosm_calibrate.calibrate
 
 
 def _one_person_per_household_frame(
     *, n: int, seed: int
 ) -> tuple[Frame, np.ndarray, np.ndarray, np.ndarray]:
-    """Build a minimal valid populace Frame: one person per household.
+    """Build a minimal valid Microcosm Frame: one person per household.
 
     A single person per household makes the household weight vector (what
     ``calibrate`` optimizes) align one-to-one with the per-person measures, so
@@ -116,17 +116,17 @@ def _targets(income: np.ndarray, is_child: np.ndarray, w0: np.ndarray) -> Target
     )
 
 
-def test_sgd_matches_populace_calibrate_weights() -> None:
+def test_sgd_matches_microcosm_calibrate_weights() -> None:
     """Our array SGD reproduces ``populace.calibrate`` on its own compiled system.
 
-    Run populace's calibrate, take the ``(A, b, w0)`` it compiled, run ours on
+    Run Microcosm's calibrate, take the ``(A, b, w0)`` it compiled, run ours on
     it with the same seed, and assert the calibrated weights coincide. Same
     objective + same optimizer => agreement to floating point.
     """
     frame, w0, income, is_child = _one_person_per_household_frame(n=40, seed=0)
     targets = _targets(income, is_child, w0)
 
-    result = populace_calibrate_fn(frame, targets, weight_entity="household", seed=0)
+    result = microcosm_calibrate_fn(frame, targets, weight_entity="household", seed=0)
     a = result.problem.matrix
     b = result.problem.target_vector
     w0_compiled = result.initial_weights
@@ -136,17 +136,17 @@ def test_sgd_matches_populace_calibrate_weights() -> None:
     np.testing.assert_allclose(ours.weights, result.weights, rtol=1e-4, atol=1e-3)
 
 
-def test_sgd_matches_populace_final_loss() -> None:
-    """The array form's final capped-MAPE loss matches populace's closing loss.
+def test_sgd_matches_microcosm_final_loss() -> None:
+    """The array form's final capped-MAPE loss matches Microcosm's closing loss.
 
-    populace reports ``final_loss`` (its ``closing_loss``) on the returned
+    Microcosm reports ``final_loss`` (its ``closing_loss``) on the returned
     weights; our :class:`~calibration_paper.sgd.SGDSolution` reports the same
     quantity on the same objective, so they agree.
     """
     frame, w0, income, is_child = _one_person_per_household_frame(n=48, seed=1)
     targets = _targets(income, is_child, w0)
 
-    result = populace_calibrate_fn(frame, targets, weight_entity="household", seed=1)
+    result = microcosm_calibrate_fn(frame, targets, weight_entity="household", seed=1)
     ours = sgd_calibrate(
         result.problem.matrix,
         result.problem.target_vector,
@@ -156,10 +156,10 @@ def test_sgd_matches_populace_final_loss() -> None:
     assert ours.final_loss == pytest.approx(result.final_loss, rel=1e-4, abs=1e-6)
 
 
-def test_sgd_bounded_matches_populace_max_weight_ratio() -> None:
-    """The hard ratio bound agrees with populace's ``max_weight_ratio`` guard.
+def test_sgd_bounded_matches_microcosm_max_weight_ratio() -> None:
+    """The hard ratio bound agrees with Microcosm's ``max_weight_ratio`` guard.
 
-    populace clamps ``w <= max_weight_ratio * w0`` after every step (the
+    Microcosm clamps ``w <= max_weight_ratio * w0`` after every step (the
     "landmine guard"); our ``max_weight_ratio`` does the same. On the same
     compiled system with the same bound and seed, the bounded solutions match
     and neither exceeds the bound.
@@ -178,7 +178,7 @@ def test_sgd_bounded_matches_populace_max_weight_ratio() -> None:
         ]
     )
     bound = 3.0
-    result = populace_calibrate_fn(
+    result = microcosm_calibrate_fn(
         frame, targets, weight_entity="household", seed=2, max_weight_ratio=bound
     )
     ours = sgd_calibrate(

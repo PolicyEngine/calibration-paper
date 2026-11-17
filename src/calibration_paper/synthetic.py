@@ -1,6 +1,6 @@
 """Seeded synthetic calibration problems with known solutions.
 
-Nothing here imports torch or populace: pure numpy/scipy, so ``cal demo`` and
+Nothing here imports torch or Microcosm: pure numpy/scipy, so ``cal demo`` and
 the CI tests run on the base install and every calibrator's *contract* is
 checkable against a problem whose answer is known.
 
@@ -21,7 +21,7 @@ Three builders, one per thing a calibrator test needs:
 
 The scale knob (``n_records``, ``n_targets``) lets the sweep's scale curves
 (target counts 10^2 -> 10^4) run on synthetic problems before the frozen
-populace surface is wired (issue #2).
+Microcosm surface is wired (issue #2).
 """
 
 from __future__ import annotations

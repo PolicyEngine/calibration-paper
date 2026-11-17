@@ -8,7 +8,7 @@ problems, and builders that materialize them into
 registry runs.
 
 Two families are defined here, both unblocked because they need only the
-synthetic builders in :mod:`calibration_paper.synthetic` (no frozen populace
+synthetic builders in :mod:`calibration_paper.synthetic` (no frozen Microcosm
 surface, no sparsity-paper machinery):
 
 * :class:`ScaleSweepConfig` -- the **scale sweep**: target-count curves
@@ -21,7 +21,7 @@ surface, no sparsity-paper machinery):
   compromise). Each grid point is an infeasible synthetic problem (contradictory
   targets) at a fixed record count.
 
-When the frozen populace target surface lands (issue #2's blocked half, gated on
+When the frozen Microcosm target surface lands (issue #2's blocked half, gated on
 sparsity-paper#17), the real Ledger targets replace the synthetic builders here
 behind the same config contract; see :mod:`calibration_paper.frozen_targets`.
 """

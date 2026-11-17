@@ -9,7 +9,7 @@ weight vector ``w`` with ``A @ w`` close to ``b``.
 
 This is the linear form the whole calibration literature works in: R
 ``survey``'s ``grake`` takes exactly ``(mm=A.T, ww=w0, population=b)``, and
-populace-calibrate compiles a Frame + declared facts into precisely this
+microcosm-calibrate compiles a Frame + declared facts into precisely this
 ``(A, b, w0)`` sparse system. Fixing the comparison at this level means every
 method sees an *identical* problem -- no method wins by a different compilation
 -- which is the frozen-input discipline the sibling papers use for the fill and

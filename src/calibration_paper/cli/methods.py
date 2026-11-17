@@ -4,7 +4,7 @@ Prints every registered method -- key, family, positivity guarantee, declared
 bounds, and citation key -- straight from :data:`calibration_paper.methods.REGISTRY`,
 so the paper's "what is compared against what" is inspectable from the command
 line without reading the source. Base install only: the registry imports without
-torch or populace.
+torch or Microcosm.
 """
 
 from __future__ import annotations

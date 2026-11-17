@@ -1,6 +1,6 @@
 """The ``cal`` CLI dispatches and its base-install commands run.
 
-Base-install tests (no torch, no populace, no R): the console entry point exists,
+Base-install tests (no torch, no Microcosm, no R): the console entry point exists,
 the dispatcher routes and reports usage errors, and ``cal methods`` / ``cal demo``
 run end to end and print the registry / diagnostics. These guard the entry point
 declared in ``pyproject.toml`` (``cal = "calibration_paper.cli:main"``) -- a broken

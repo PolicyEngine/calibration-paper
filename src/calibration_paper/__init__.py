@@ -1,7 +1,7 @@
 """calibration-paper: the calibrate operator's validation dossier.
 
 This package benchmarks the gradient-descent survey calibrator (the reweighter
-populace uses) against the survey-statistics standard -- classical calibration:
+Microcosm uses) against the survey-statistics standard -- classical calibration:
 raking/IPF, GREG/linear calibration, entropy balancing, chi-square distance, and
 their bounded variants -- on one frozen target surface at modern scale.
 

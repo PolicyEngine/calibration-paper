@@ -1,6 +1,6 @@
 """The dependency-free demo runs every classical method end to end.
 
-Runs on the base install (no torch, no populace), so it is CI's proof that the
+Runs on the base install (no torch, no Microcosm), so it is CI's proof that the
 registry, adapters, solvers, and diagnostics all connect.
 """
 

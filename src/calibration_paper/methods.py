@@ -26,9 +26,9 @@ not, and says so).
 
 **Lazy imports are load-bearing.** The classical adapters
 (:mod:`calibration_paper.classical`) are pure NumPy and always available. The
-gradient adapters need torch, and the populace-backed reference adapter needs
+gradient adapters need torch, and the Microcosm-backed reference adapter needs
 ``populace-calibrate``; both live behind the ``methods`` extra and are *not*
-installed in CI. So neither torch nor populace may be imported at module import
+installed in CI. So neither torch nor Microcosm may be imported at module import
 time: each constructor's returned ``calibrate`` imports what it needs inside its
 own body. This lets ``list_methods()`` and the registry import (and test) on the
 base install alone, while a gradient run raises a clear
@@ -314,11 +314,11 @@ REGISTRY: dict[str, Method] = {
         key="sgd",
         family=MethodFamily.GRADIENT,
         description=(
-            "Gradient-descent calibration (populace-calibrate): Adam on "
+            "Gradient-descent calibration (microcosm-calibrate): Adam on "
             "log-weights minimizing capped fixed-scale weighted MAPE. Weights "
             "positive by construction; a soft loss, so no hard target guarantee."
         ),
-        citation_key="populace2026",
+        citation_key="microcosm2026",
         guarantees_positive=True,
         respects_bounds=None,
         constructor=lambda: _sgd_constructor(max_weight_ratio=None),
@@ -331,7 +331,7 @@ REGISTRY: dict[str, Method] = {
             "(max_weight_ratio=5): the landmine-guard variant that clamps the "
             "weight ratio after every step."
         ),
-        citation_key="populace2026",
+        citation_key="microcosm2026",
         guarantees_positive=True,
         respects_bounds=(0.0, 5.0),
         constructor=lambda: _sgd_constructor(max_weight_ratio=5.0),
